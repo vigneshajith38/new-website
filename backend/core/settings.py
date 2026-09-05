@@ -64,7 +64,7 @@ MIDDLEWARE = [
 
 CORS_ALLOW_ALL_ORIGINS = True # For development. Adjust for production.
 
-CSRF_TRUSTED_ORIGINS = ['https://*.loca.lt', 'https://*.pinggy.link']
+CSRF_TRUSTED_ORIGINS = ['https://*.loca.lt', 'https://*.pinggy.link', 'https://shop-backend-1vsv.onrender.com']
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 ROOT_URLCONF = 'core.urls'
