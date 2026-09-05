@@ -19,6 +19,11 @@ const nextConfig: NextConfig = {
         hostname: 'localhost',
         port: '8000',
         pathname: '/media/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'shop-backend-1vsv.onrender.com',
+        pathname: '/media/**',
       }
     ],
   },
