@@ -149,6 +149,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# Hardcoding for test project to bypass Render dashboard issues
+os.environ['CLOUDINARY_URL'] = "cloudinary://841695197426834:ofuH4zCbfzIIbjQkFOxU8D8psXM@wlxqjvu9"
+
 if os.environ.get('CLOUDINARY_URL'):
     STORAGES = {
         "default": {
