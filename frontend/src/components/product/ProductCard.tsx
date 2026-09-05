@@ -23,7 +23,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   const whatsappLink = getWhatsAppLink(
     businessConfig.whatsapp,
-    `Hi, I am interested in ${product.name} (SKU: ${product.sku}). Can you share more details?`
+    `Hi, I am interested in ${product.name}. Can you share more details?`
   );
 
   return (
@@ -102,8 +102,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           </h3>
         </Link>
 
-        {/* SKU */}
-        <p className="text-xs text-text-muted mb-3">SKU: {product.sku}</p>
+        {/* Category */}
 
         {/* Price Hidden - Enquire via WhatsApp instead */}
         <div className="flex items-center justify-between">

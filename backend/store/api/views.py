@@ -30,7 +30,7 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['featured', 'category__slug', 'subcategory__slug']
-    search_fields = ['name', 'sku', 'description', 'category__name']
+    search_fields = ['name', 'description', 'category__name']
     ordering_fields = ['price', 'created_at', 'name']
 
 

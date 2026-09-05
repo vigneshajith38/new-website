@@ -182,7 +182,6 @@ export const mockProducts: Product[] = [
     id: 1,
     name: 'Stainless Steel Pressure Cooker 5L',
     slug: 'stainless-steel-pressure-cooker-5l',
-    sku: 'VMM-CK-001',
     description:
       'Heavy-gauge stainless steel pressure cooker with a precision weight valve and cool-touch handles. Suitable for all stovetops including induction.',
     category: 1,
@@ -208,7 +207,6 @@ export const mockProducts: Product[] = [
     id: 2,
     name: 'Stainless Steel Kadai with Lid',
     slug: 'stainless-steel-kadai-with-lid',
-    sku: 'VMM-CK-002',
     description:
       'Tri-ply stainless steel kadai with a riveted stainless-steel handle and glass lid. Even heat distribution for perfect cooking.',
     category: 1,
@@ -234,7 +232,6 @@ export const mockProducts: Product[] = [
     id: 3,
     name: 'Steel Tope Set (3 Pieces)',
     slug: 'steel-tope-set-3-pieces',
-    sku: 'VMM-CK-003',
     description:
       'Set of 3 stainless steel topes in different sizes. Perfect for everyday Indian cooking — from boiling milk to making curries.',
     category: 1,
@@ -261,7 +258,6 @@ export const mockProducts: Product[] = [
     id: 4,
     name: 'Non-Stick Dosa Tawa 28cm',
     slug: 'non-stick-dosa-tawa-28cm',
-    sku: 'VMM-CK-004',
     description:
       'Premium non-stick dosa tawa with a flat cooking surface for crispy dosas. Bakelite handle stays cool during cooking.',
     category: 1,
@@ -288,7 +284,6 @@ export const mockProducts: Product[] = [
     id: 5,
     name: 'Cast Iron Skillet 10 Inch',
     slug: 'cast-iron-skillet-10-inch',
-    sku: 'VMM-CK-005',
     description:
       'Pre-seasoned cast iron skillet. Perfect for searing, frying, and baking. Develops a natural non-stick patina over time.',
     category: 1,
@@ -315,7 +310,6 @@ export const mockProducts: Product[] = [
     id: 6,
     name: 'Brass Pooja Thali Set',
     slug: 'brass-pooja-thali-set',
-    sku: 'VMM-PJ-001',
     description:
       'Complete brass pooja thali set including thali, diya, incense holder, kumkum container, and bell. Traditional craftsmanship with a polished finish.',
     category: 3,
@@ -341,7 +335,6 @@ export const mockProducts: Product[] = [
     id: 7,
     name: 'Copper Pooja Lota',
     slug: 'copper-pooja-lota',
-    sku: 'VMM-PJ-002',
     description:
       'Pure copper lota for pooja rituals and daily water storage. Health-beneficial copper vessel with traditional design.',
     category: 3,
@@ -368,7 +361,6 @@ export const mockProducts: Product[] = [
     id: 8,
     name: 'Stainless Steel Spoon Set (12 Pieces)',
     slug: 'stainless-steel-spoon-set-12-pieces',
-    sku: 'VMM-CT-001',
     description:
       'Premium quality stainless steel spoon set with mirror polish finish. Includes 6 dessert spoons and 6 teaspoons.',
     category: 4,
@@ -395,7 +387,6 @@ export const mockProducts: Product[] = [
     id: 9,
     name: 'Stainless Steel Dinner Set (24 Pieces)',
     slug: 'stainless-steel-dinner-set-24-pieces',
-    sku: 'VMM-DW-001',
     description:
       'Complete 24-piece dinner set: 6 full plates, 6 quarter plates, 6 bowls, and 6 glasses. Heavy-gauge stainless steel with a satin finish.',
     category: 5,
@@ -422,7 +413,6 @@ export const mockProducts: Product[] = [
     id: 10,
     name: 'Airtight Storage Container Set (5 Pieces)',
     slug: 'airtight-storage-container-set-5-pieces',
-    sku: 'VMM-ST-001',
     description:
       'Set of 5 airtight stainless steel containers with see-through lids. Ideal for storing spices, pulses, and dry goods.',
     category: 6,
@@ -449,7 +439,6 @@ export const mockProducts: Product[] = [
     id: 11,
     name: 'Stainless Steel Water Bottle 1L',
     slug: 'stainless-steel-water-bottle-1l',
-    sku: 'VMM-HH-001',
     description:
       'Single-wall stainless steel water bottle with a leak-proof cap. Durable, eco-friendly, and easy to clean.',
     category: 2,
@@ -476,7 +465,6 @@ export const mockProducts: Product[] = [
     id: 12,
     name: '3-Burner Gas Stove',
     slug: '3-burner-gas-stove',
-    sku: 'VMM-GS-001',
     description:
       'Toughened glass top 3-burner gas stove with heavy-duty brass burners. Auto-ignition feature and spill-proof design. ISI certified.',
     category: 8,
@@ -503,7 +491,6 @@ export const mockProducts: Product[] = [
     id: 13,
     name: 'Stainless Steel Soap Dish',
     slug: 'stainless-steel-soap-dish',
-    sku: 'VMM-BT-001',
     description:
       'Wall-mounted stainless steel soap dish with drainage holes. Rust-resistant and easy to install.',
     category: 7,
@@ -529,7 +516,6 @@ export const mockProducts: Product[] = [
     id: 14,
     name: 'Aluminium Idli Maker 4-Plate',
     slug: 'aluminium-idli-maker-4-plate',
-    sku: 'VMM-CK-006',
     description:
       'Traditional aluminium idli maker with 4 plates. Makes 16 idlis at once. Sturdy construction with cool-touch knob.',
     category: 1,
@@ -555,7 +541,6 @@ export const mockProducts: Product[] = [
     id: 15,
     name: 'Copper Bottom Handi 3L',
     slug: 'copper-bottom-handi-3l',
-    sku: 'VMM-CK-007',
     description:
       'Stainless steel handi with copper bottom for superior heat conduction. Traditional shape, ideal for slow-cooking curries and dals.',
     category: 1,
@@ -581,7 +566,6 @@ export const mockProducts: Product[] = [
     id: 16,
     name: 'Mixer Grinder 750W',
     slug: 'mixer-grinder-750w',
-    sku: 'VMM-GS-002',
     description:
       'Powerful 750W mixer grinder with 3 stainless steel jars. Multi-purpose — wet grinding, dry grinding, and chutney. Overload protection.',
     category: 8,

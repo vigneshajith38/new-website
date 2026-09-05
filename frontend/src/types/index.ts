@@ -32,7 +32,6 @@ export interface Product {
   id: number;
   name: string;
   slug: string;
-  sku: string;
   description: string;
   category: number;
   category_name: string;
@@ -83,7 +82,6 @@ export interface OrderItem {
   id: number;
   product: number;
   product_name: string;
-  product_sku: string;
   product_image: string | null;
   quantity: number;
   unit_price: number;

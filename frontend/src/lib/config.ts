@@ -26,6 +26,7 @@ export const businessConfig: BusinessConfig = {
 };
 
 export const CATEGORIES = [
+  { name: 'Super Myna Products', slug: 'super-myna-products', icon: 'Star' },
   { name: 'Cookware', slug: 'cookware', icon: 'ChefHat' },
   { name: 'Household', slug: 'household', icon: 'Home' },
   { name: 'Pooja Items', slug: 'pooja-items', icon: 'Flame' },

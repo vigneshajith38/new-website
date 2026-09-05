@@ -46,7 +46,7 @@ export default function CartItem({ item }: CartItemProps) {
               {product.name}
             </Link>
             <p className="text-xs text-text-muted mt-0.5">
-              SKU: {product.sku}
+              Category: {product.category_name}
             </p>
           </div>
           <button

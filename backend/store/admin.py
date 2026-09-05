@@ -12,15 +12,15 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'sku', 'category', 'price', 'stock_quantity', 'active', 'featured', 'image_preview')
+    list_display = ('name', 'category', 'price', 'stock_quantity', 'active', 'featured', 'image_preview')
     list_filter = ('active', 'featured', 'category', 'subcategory')
-    search_fields = ('name', 'sku', 'description', 'material')
+    search_fields = ('name', 'description', 'material')
     prepopulated_fields = {'slug': ('name',)}
     list_editable = ('price', 'stock_quantity', 'active', 'featured')
 
     fieldsets = (
         ('Product Info', {
-            'fields': ('name', 'slug', 'sku', 'description', 'category', 'subcategory')
+            'fields': ('name', 'slug', 'description', 'category', 'subcategory')
         }),
         ('Specs', {
             'fields': ('material', 'size')
@@ -51,7 +51,8 @@ class ProductAdmin(admin.ModelAdmin):
                 '</div>',
                 url
             )
-        return format_html('<span style="color:#999;">No image set</span>')
+        from django.utils.safestring import mark_safe
+        return mark_safe('<span style="color:#999;">No image set</span>')
     current_image_preview.short_description = 'Current Image'
 
     def image_preview(self, obj):

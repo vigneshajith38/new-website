@@ -17,10 +17,7 @@ import type {
 } from '@/types';
 import { mockProducts, mockCategories } from '@/lib/mockData';
 import { generateOrderNumber } from '@/lib/utils';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000';
-
-// ---------------------------------------------------------------------------
+const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
 // Helpers
 // ---------------------------------------------------------------------------
 
@@ -76,7 +73,6 @@ export async function getProducts(
       filtered = filtered.filter(
         (p) =>
           p.name.toLowerCase().includes(q) ||
-          p.sku.toLowerCase().includes(q) ||
           p.category_name.toLowerCase().includes(q) ||
           p.material.toLowerCase().includes(q)
       );
@@ -232,7 +228,6 @@ export async function createOrder(
         id: idx + 1,
         product: item.product.id,
         product_name: item.product.name,
-        product_sku: item.product.sku,
         product_image: item.product.primary_image,
         quantity: item.quantity,
         unit_price: item.product.price ?? 0,

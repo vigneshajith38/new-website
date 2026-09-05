@@ -85,7 +85,7 @@ export default function ProductDetailPage() {
     product.sale_price !== null &&
     product.sale_price < (product.price ?? Infinity);
 
-  const whatsappMessage = `Hi, I'm interested in ${product.name} (SKU: ${product.sku}). Can you share more details?`;
+  const whatsappMessage = `Hi, I'm interested in ${product.name}. Can you share more details?`;
   const whatsappLink = getWhatsAppLink(businessConfig.whatsapp, whatsappMessage);
 
   return (
@@ -136,8 +136,7 @@ export default function ProductDetailPage() {
             {product.name}
           </h1>
 
-          {/* SKU */}
-          <p className="text-sm text-text-muted mb-4">SKU: {product.sku}</p>
+          {/* Category */}
 
           {/* Price Hidden */}
           <div className="mb-6">

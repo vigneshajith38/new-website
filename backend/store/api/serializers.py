@@ -29,7 +29,7 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = [
-            'id', 'name', 'slug', 'sku', 'description', 
+            'id', 'name', 'slug', 'description', 
             'category', 'category_name', 'category_slug',
             'subcategory', 'subcategory_name', 'subcategory_slug',
             'material', 'size', 'price', 'sale_price', 'stock_quantity', 
@@ -54,11 +54,10 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class OrderItemSerializer(serializers.ModelSerializer):
     product_name = serializers.CharField(source='product.name', read_only=True)
-    product_sku = serializers.CharField(source='product.sku', read_only=True)
     
     class Meta:
         model = OrderItem
-        fields = ['product', 'product_name', 'product_sku', 'quantity', 'unit_price', 'total_price']
+        fields = ['product', 'product_name', 'quantity', 'unit_price', 'total_price']
 
 
 class OrderCreateSerializer(serializers.ModelSerializer):
