@@ -67,12 +67,30 @@ class ProductSerializer(serializers.ModelSerializer):
         return []
 
     def get_related_sizes(self, obj):
+        # 1. First check for explicitly defined size variants (manual mode)
+        manual_variants = obj.size_variants.filter(active=True)
+        if manual_variants.exists():
+            sizes = []
+            for p in manual_variants:
+                # Extract the size from name if possible, or fallback to the size field
+                _, p_size = get_base_name_and_size(p.name)
+                label = p_size or p.size or getattr(p, 'name', 'Variant')
+                sizes.append({
+                    'id': p.id,
+                    'name': p.name,
+                    'slug': p.slug,
+                    'size_label': label,
+                    'price': float(p.price) if p.price else None,
+                })
+            sizes.sort(key=lambda x: str(x['size_label']))
+            return sizes
+
+        # 2. Fallback to automatic matching (auto mode)
         base_name, current_size = get_base_name_and_size(obj.name)
         if not current_size:
             return []
             
         # Find all products that start with the base_name
-        # Using a simple filter since the DB is small, it shouldn't be a big performance hit
         similar_products = Product.objects.filter(
             name__istartswith=base_name,
             active=True
@@ -91,8 +109,7 @@ class ProductSerializer(serializers.ModelSerializer):
                     'price': float(p.price) if p.price else None,
                 })
         
-        # Optionally, we can sort them by size label (basic string sort)
-        sizes.sort(key=lambda x: x['size_label'])
+        sizes.sort(key=lambda x: str(x['size_label']))
         return sizes
 
 

@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Heart, Eye, ShoppingBag } from 'lucide-react';
@@ -17,6 +18,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   const toggleWishlist = useWishlistStore((s) => s.toggleWishlist);
   const isWishlisted = useWishlistStore((s) => s.isWishlisted(product.id));
   const addItem = useCartStore((s) => s.addItem);
+  const [showSizes, setShowSizes] = useState(false);
 
   const hasPrice = product.price !== null;
   const hasSalePrice = product.sale_price !== null && product.sale_price < (product.price ?? Infinity);
@@ -111,19 +113,43 @@ export default function ProductCard({ product }: ProductCardProps) {
           </span>
         </div>
         
-        {/* Related Sizes */}
+        {/* Related Sizes Button & Dropdown */}
         {product.related_sizes && product.related_sizes.length > 0 && (
-          <div className="mt-3 flex flex-wrap gap-1.5">
-            {product.related_sizes.map((size) => (
-              <Link
-                key={size.id}
-                href={`/products/${size.slug}`}
-                className="px-2 py-1 text-[10px] font-medium border border-border rounded bg-white hover:border-primary hover:text-primary transition-colors text-text-muted"
-                onClick={(e) => e.stopPropagation()}
-              >
-                {size.size_label}
-              </Link>
-            ))}
+          <div className="mt-3 relative">
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setShowSizes(!showSizes);
+              }}
+              className="w-full py-1.5 px-3 text-xs font-semibold border border-border rounded-lg bg-surface text-charcoal hover:border-primary hover:text-primary transition-colors flex items-center justify-between"
+            >
+              <span>Available Sizes ({product.related_sizes.length})</span>
+              <span className={cn("transition-transform duration-200 text-[10px]", showSizes ? "rotate-180" : "")}>
+                ▼
+              </span>
+            </button>
+            
+            {/* Expanded Sizes */}
+            <div 
+              className={cn(
+                "overflow-hidden transition-all duration-300",
+                showSizes ? "max-h-40 opacity-100 mt-2" : "max-h-0 opacity-0"
+              )}
+            >
+              <div className="flex flex-wrap gap-1.5 p-2 bg-cream/30 rounded-lg border border-primary/5">
+                {product.related_sizes.map((size) => (
+                  <Link
+                    key={size.id}
+                    href={`/products/${size.slug}`}
+                    className="px-2 py-1 text-[10px] font-medium border border-border rounded bg-white hover:border-primary hover:text-primary transition-colors text-text-muted"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {size.size_label}
+                  </Link>
+                ))}
+              </div>
+            </div>
           </div>
         )}
         

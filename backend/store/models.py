@@ -44,6 +44,9 @@ class Product(models.Model):
     image = models.ImageField(upload_to='products/', blank=True, null=True, help_text="Upload an image file from your computer")
     image_url = models.URLField(max_length=500, blank=True, default='', help_text="OR paste an image URL (e.g. from Google Drive, Imgur)")
     additional_images = models.JSONField(default=list, blank=True, help_text="List of image URLs if not using dedicated image model")
+    
+    # Related Sizes
+    size_variants = models.ManyToManyField('self', blank=True, symmetrical=True, help_text="Select other products that are different sizes of this product.")
 
     @property
     def get_primary_image(self):

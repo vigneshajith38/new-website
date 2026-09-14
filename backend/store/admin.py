@@ -17,13 +17,14 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ('name', 'description', 'material')
     prepopulated_fields = {'slug': ('name',)}
     list_editable = ('price', 'stock_quantity', 'active', 'featured')
+    filter_horizontal = ('size_variants',)
 
     fieldsets = (
         ('Product Info', {
             'fields': ('name', 'slug', 'description', 'category', 'subcategory')
         }),
-        ('Specs', {
-            'fields': ('material', 'size')
+        ('Specs & Sizes', {
+            'fields': ('material', 'size', 'size_variants')
         }),
         ('Pricing & Inventory', {
             'fields': ('price', 'sale_price', 'stock_quantity')
