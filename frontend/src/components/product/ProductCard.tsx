@@ -141,7 +141,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                 {product.related_sizes.map((size) => (
                   <Link
                     key={size.id}
-                    href={`/products/${size.slug}`}
+                    href={`/products/${size.slug}?size=${size.id}`}
                     className="px-2 py-1 text-[10px] font-medium border border-border rounded bg-white hover:border-primary hover:text-primary transition-colors text-text-muted"
                     onClick={(e) => e.stopPropagation()}
                   >

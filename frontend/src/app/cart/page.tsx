@@ -47,7 +47,7 @@ export default function CartPage() {
           <div className="lg:col-span-2">
             <div className="rounded-xl border border-border bg-surface px-5">
               {items.map((item) => (
-                <CartItemComponent key={item.product.id} item={item} />
+                <CartItemComponent key={`${item.product.id}-${item.sizeVariantId || 'base'}`} item={item} />
               ))}
             </div>
 

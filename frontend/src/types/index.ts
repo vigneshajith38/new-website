@@ -33,6 +33,8 @@ export interface RelatedSize {
   slug: string;
   size_label: string;
   price: number | null;
+  sale_price: number | null;
+  stock_quantity: number;
 }
 
 // --- Product ---
@@ -66,6 +68,9 @@ export interface Product {
 export interface CartItem {
   product: Product;
   quantity: number;
+  sizeVariantId?: number;
+  sizeLabel?: string;
+  priceAtAddition: number; // to lock the price from the selected variant
 }
 
 // --- Wishlist ---

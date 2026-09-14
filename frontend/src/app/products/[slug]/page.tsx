@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import {
   Heart,
   ShoppingBag,
@@ -29,12 +29,17 @@ import ErrorState from '@/components/ui/ErrorState';
 
 export default function ProductDetailPage() {
   const params = useParams();
+  const searchParams = useSearchParams();
   const slug = params.slug as string;
+  const initialSizeId = searchParams.get('size');
 
   const [product, setProduct] = useState<Product | null>(null);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
+  const [selectedVariantId, setSelectedVariantId] = useState<number | null>(
+    initialSizeId ? Number(initialSizeId) : null
+  );
 
   const addItem = useCartStore((s) => s.addItem);
   const toggleWishlist = useWishlistStore((s) => s.toggleWishlist);
@@ -49,6 +54,9 @@ export default function ProductDetailPage() {
         const p = await getProductBySlug(slug);
         setProduct(p);
         if (p) {
+          if (!selectedVariantId && p.related_sizes && p.related_sizes.length > 0) {
+            setSelectedVariantId(p.related_sizes[0].id);
+          }
           const related = await getRelatedProducts(p.category_slug, p.slug);
           setRelatedProducts(related);
         }
@@ -80,13 +88,18 @@ export default function ProductDetailPage() {
     );
   }
 
-  const stock = getStockStatus(product.stock_quantity);
+  const selectedVariant = product.related_sizes?.find(v => v.id === selectedVariantId);
+  const displayStock = selectedVariant ? selectedVariant.stock_quantity : product.stock_quantity;
+  const displaySize = selectedVariant ? selectedVariant.size_label : product.size;
+  const displayIsInStock = displayStock > 0;
+  
+  const stock = getStockStatus(displayStock);
   const hasPrice = product.price !== null;
   const hasSalePrice =
     product.sale_price !== null &&
     product.sale_price < (product.price ?? Infinity);
 
-  const whatsappMessage = `Hi, I'm interested in ${product.name}. Can you share more details?`;
+  const whatsappMessage = `Hi, I'm interested in ${product.name}${selectedVariant ? ` (${selectedVariant.size_label})` : ''}. Can you share more details?`;
   const whatsappLink = getWhatsAppLink(businessConfig.whatsapp, whatsappMessage);
 
   return (
@@ -158,14 +171,14 @@ export default function ProductDetailPage() {
               <span
                 className={cn(
                   'w-2 h-2 rounded-full',
-                  product.is_in_stock ? 'bg-emerald-500' : 'bg-red-500'
+                  displayIsInStock ? 'bg-emerald-500' : 'bg-red-500'
                 )}
               />
               {stock.label}
             </span>
-            {product.stock_quantity > 0 && product.stock_quantity <= 10 && (
+            {displayStock > 0 && displayStock <= 10 && (
               <span className="text-xs text-text-muted">
-                ({product.stock_quantity} left)
+                ({displayStock} left)
               </span>
             )}
           </div>
@@ -188,13 +201,13 @@ export default function ProductDetailPage() {
                 </div>
               </div>
             )}
-            {product.size && (
+            {displaySize && (
               <div className="flex items-center gap-2 p-3 rounded-lg bg-border-light">
                 <Ruler className="w-4 h-4 text-text-muted" />
                 <div>
                   <p className="text-xs text-text-muted">Size / Capacity</p>
                   <p className="text-sm font-medium text-charcoal">
-                    {product.size}
+                    {displaySize}
                   </p>
                 </div>
               </div>
@@ -206,19 +219,19 @@ export default function ProductDetailPage() {
             <div className="mb-6">
               <h3 className="text-sm font-semibold text-charcoal mb-3">Available Sizes</h3>
               <div className="flex flex-wrap gap-2">
-                {/* Current size */}
-                <div className="px-4 py-2 text-sm font-medium border-2 border-primary text-primary rounded-lg bg-primary/5 cursor-default">
-                  {product.size || 'Current'}
-                </div>
-                {/* Other sizes */}
                 {product.related_sizes.map((size) => (
-                  <Link
+                  <button
                     key={size.id}
-                    href={`/products/${size.slug}`}
-                    className="px-4 py-2 text-sm font-medium border border-border text-text-muted rounded-lg hover:border-primary hover:text-primary transition-colors"
+                    onClick={() => setSelectedVariantId(size.id)}
+                    className={cn(
+                      "px-4 py-2 text-sm font-medium rounded-lg transition-colors border",
+                      selectedVariantId === size.id
+                        ? "border-primary text-primary bg-primary/5"
+                        : "border-border text-text-muted hover:border-primary hover:text-primary"
+                    )}
                   >
                     {size.size_label}
-                  </Link>
+                  </button>
                 ))}
               </div>
             </div>

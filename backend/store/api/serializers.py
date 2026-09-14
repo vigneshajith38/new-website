@@ -67,50 +67,24 @@ class ProductSerializer(serializers.ModelSerializer):
         return []
 
     def get_related_sizes(self, obj):
-        # 1. First check for explicitly defined size variants (manual mode)
-        manual_variants = obj.size_variants.filter(active=True)
-        if manual_variants.exists():
+        # Fetch explicitly defined size variants
+        variants = obj.size_variants.all()
+        if variants.exists():
             sizes = []
-            for p in manual_variants:
-                # Extract the size from name if possible, or fallback to the size field
-                _, p_size = get_base_name_and_size(p.name)
-                label = p_size or p.size or getattr(p, 'name', 'Variant')
+            for p in variants:
                 sizes.append({
                     'id': p.id,
-                    'name': p.name,
-                    'slug': p.slug,
-                    'size_label': label,
+                    'name': f"{obj.name} - {p.size}",
+                    'slug': obj.slug, # Use the main product slug, sizes are now selected on the same page
+                    'size_label': p.size,
                     'price': float(p.price) if p.price else None,
+                    'sale_price': float(p.sale_price) if p.sale_price else None,
+                    'stock_quantity': p.stock_quantity,
                 })
             sizes.sort(key=lambda x: str(x['size_label']))
             return sizes
 
-        # 2. Fallback to automatic matching (auto mode)
-        base_name, current_size = get_base_name_and_size(obj.name)
-        if not current_size:
-            return []
-            
-        # Find all products that start with the base_name
-        similar_products = Product.objects.filter(
-            name__istartswith=base_name,
-            active=True
-        ).exclude(id=obj.id)
-        
-        sizes = []
-        for p in similar_products:
-            p_base, p_size = get_base_name_and_size(p.name)
-            # Make sure it's exactly the same base product and actually has a size
-            if p_base.lower() == base_name.lower() and p_size:
-                sizes.append({
-                    'id': p.id,
-                    'name': p.name,
-                    'slug': p.slug,
-                    'size_label': p_size,
-                    'price': float(p.price) if p.price else None,
-                })
-        
-        sizes.sort(key=lambda x: str(x['size_label']))
-        return sizes
+        return []
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
@@ -162,20 +136,39 @@ class OrderCreateSerializer(serializers.ModelSerializer):
             
             # Use product price if unit_price/total_price not sent properly in payload
             unit_price = product.price if product.price else 0
+            
+            # Allow specifying size_variant
+            size_variant_id = item_data.get('size_variant_id')
+            size_variant = None
+            if size_variant_id:
+                try:
+                    from store.models import ProductSizeVariant
+                    size_variant = ProductSizeVariant.objects.get(id=size_variant_id, product=product)
+                    if size_variant.price:
+                        unit_price = size_variant.price
+                except:
+                    pass
+                    
             total_price = unit_price * quantity
             
             OrderItem.objects.create(
                 order=order, 
                 product=product,
+                size_variant=size_variant,
                 quantity=quantity,
                 unit_price=unit_price,
                 total_price=total_price
             )
             
-            # Decrement stock (basic implementation)
-            if product.stock_quantity >= quantity:
-                product.stock_quantity -= quantity
-                product.save()
+            # Decrement stock
+            if size_variant:
+                if size_variant.stock_quantity >= quantity:
+                    size_variant.stock_quantity -= quantity
+                    size_variant.save()
+            else:
+                if product.stock_quantity >= quantity:
+                    product.stock_quantity -= quantity
+                    product.save()
 
         return order
 

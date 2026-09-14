@@ -45,8 +45,6 @@ class Product(models.Model):
     image_url = models.URLField(max_length=500, blank=True, default='', help_text="OR paste an image URL (e.g. from Google Drive, Imgur)")
     additional_images = models.JSONField(default=list, blank=True, help_text="List of image URLs if not using dedicated image model")
     
-    # Related Sizes
-    size_variants = models.ManyToManyField('self', blank=True, symmetrical=True, help_text="Select other products that are different sizes of this product.")
 
     @property
     def get_primary_image(self):
@@ -128,12 +126,26 @@ class Order(models.Model):
         super().save(*args, **kwargs)
 
 
+class ProductSizeVariant(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='size_variants')
+    size = models.CharField(max_length=100)
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    sale_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    stock_quantity = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.product.name} - {self.size}"
+
+
 class OrderItem(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
-    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+    order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    size_variant = models.ForeignKey(ProductSizeVariant, on_delete=models.SET_NULL, null=True, blank=True)
     quantity = models.PositiveIntegerField(default=1)
     unit_price = models.DecimalField(max_digits=10, decimal_places=2)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
+        if self.size_variant:
+            return f"{self.quantity} x {self.product.name} ({self.size_variant.size}) (Order {self.order.order_number})"
         return f"{self.quantity} x {self.product.name} (Order {self.order.order_number})"

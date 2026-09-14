@@ -14,8 +14,8 @@ export default function CartItem({ item }: CartItemProps) {
   const updateQuantity = useCartStore((s) => s.updateQuantity);
   const removeItem = useCartStore((s) => s.removeItem);
 
-  const { product, quantity } = item;
-  const unitPrice = product.sale_price ?? product.price ?? 0;
+  const { product, quantity, sizeVariantId, sizeLabel, priceAtAddition } = item;
+  const unitPrice = priceAtAddition;
   const lineTotal = unitPrice * quantity;
 
   return (
@@ -48,9 +48,14 @@ export default function CartItem({ item }: CartItemProps) {
             <p className="text-xs text-text-muted mt-0.5">
               Category: {product.category_name}
             </p>
+            {sizeLabel && (
+              <p className="text-xs font-medium text-primary mt-1">
+                Size: {sizeLabel}
+              </p>
+            )}
           </div>
           <button
-            onClick={() => removeItem(product.id)}
+            onClick={() => removeItem(product.id, sizeVariantId)}
             className="p-1.5 rounded-lg text-text-muted hover:text-error hover:bg-red-50 transition-colors shrink-0"
             aria-label={`Remove ${product.name} from cart`}
           >
@@ -62,7 +67,7 @@ export default function CartItem({ item }: CartItemProps) {
           {/* Quantity Controls */}
           <div className="flex items-center border border-border rounded-lg">
             <button
-              onClick={() => updateQuantity(product.id, quantity - 1)}
+              onClick={() => updateQuantity(product.id, sizeVariantId, quantity - 1)}
               disabled={quantity <= 1}
               className="p-1.5 text-text-muted hover:text-charcoal transition-colors disabled:opacity-30"
               aria-label="Decrease quantity"
@@ -73,7 +78,7 @@ export default function CartItem({ item }: CartItemProps) {
               {quantity}
             </span>
             <button
-              onClick={() => updateQuantity(product.id, quantity + 1)}
+              onClick={() => updateQuantity(product.id, sizeVariantId, quantity + 1)}
               className="p-1.5 text-text-muted hover:text-charcoal transition-colors"
               aria-label="Increase quantity"
             >

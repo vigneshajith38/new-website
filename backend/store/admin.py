@@ -1,6 +1,10 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Category, Product, Customer, Order, OrderItem
+from .models import Category, Product, Customer, Order, OrderItem, ProductSizeVariant
+
+class ProductSizeVariantInline(admin.TabularInline):
+    model = ProductSizeVariant
+    extra = 1
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -17,14 +21,14 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ('name', 'description', 'material')
     prepopulated_fields = {'slug': ('name',)}
     list_editable = ('price', 'stock_quantity', 'active', 'featured')
-    filter_horizontal = ('size_variants',)
+    inlines = [ProductSizeVariantInline]
 
     fieldsets = (
         ('Product Info', {
             'fields': ('name', 'slug', 'description', 'category', 'subcategory')
         }),
-        ('Specs & Sizes', {
-            'fields': ('material', 'size', 'size_variants')
+        ('Specs', {
+            'fields': ('material', 'size')
         }),
         ('Pricing & Inventory', {
             'fields': ('price', 'sale_price', 'stock_quantity')
