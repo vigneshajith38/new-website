@@ -28,6 +28,7 @@ async function apiFetch<T>(endpoint: string, options?: RequestInit): Promise<T> 
       'Content-Type': 'application/json',
       ...options?.headers,
     },
+    cache: 'no-store', // Disable aggressive Next.js caching
     ...options,
   });
 
