@@ -27,6 +27,14 @@ export interface ProductImage {
   sort_order: number;
 }
 
+export interface RelatedSize {
+  id: number;
+  name: string;
+  slug: string;
+  size_label: string;
+  price: number | null;
+}
+
 // --- Product ---
 export interface Product {
   id: number;
@@ -49,6 +57,7 @@ export interface Product {
   images: ProductImage[];
   is_active: boolean;
   is_featured: boolean;
+  related_sizes: RelatedSize[];
   created_at: string;
   updated_at: string;
 }

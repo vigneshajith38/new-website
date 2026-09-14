@@ -111,6 +111,22 @@ export default function ProductCard({ product }: ProductCardProps) {
           </span>
         </div>
         
+        {/* Related Sizes */}
+        {product.related_sizes && product.related_sizes.length > 0 && (
+          <div className="mt-3 flex flex-wrap gap-1.5">
+            {product.related_sizes.map((size) => (
+              <Link
+                key={size.id}
+                href={`/products/${size.slug}`}
+                className="px-2 py-1 text-[10px] font-medium border border-border rounded bg-white hover:border-primary hover:text-primary transition-colors text-text-muted"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {size.size_label}
+              </Link>
+            ))}
+          </div>
+        )}
+        
         {/* WhatsApp Enquiry Button */}
         <div className="mt-auto pt-3 border-t border-border">
           <a

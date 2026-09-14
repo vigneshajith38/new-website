@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import {
   Heart,
@@ -199,6 +200,29 @@ export default function ProductDetailPage() {
               </div>
             )}
           </div>
+
+          {/* Related Sizes */}
+          {product.related_sizes && product.related_sizes.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-sm font-semibold text-charcoal mb-3">Available Sizes</h3>
+              <div className="flex flex-wrap gap-2">
+                {/* Current size */}
+                <div className="px-4 py-2 text-sm font-medium border-2 border-primary text-primary rounded-lg bg-primary/5 cursor-default">
+                  {product.size || 'Current'}
+                </div>
+                {/* Other sizes */}
+                {product.related_sizes.map((size) => (
+                  <Link
+                    key={size.id}
+                    href={`/products/${size.slug}`}
+                    className="px-4 py-2 text-sm font-medium border border-border text-text-muted rounded-lg hover:border-primary hover:text-primary transition-colors"
+                  >
+                    {size.size_label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Actions */}
           <div className="flex flex-col sm:flex-row items-stretch gap-3 mb-6">
