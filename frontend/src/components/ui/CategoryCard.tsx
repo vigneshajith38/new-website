@@ -9,6 +9,7 @@ import {
   Package,
   Bath,
   Zap,
+  Star,
 } from 'lucide-react';
 
 const iconMap: Record<string, React.ElementType> = {
@@ -20,6 +21,7 @@ const iconMap: Record<string, React.ElementType> = {
   Package,
   Bath,
   Zap,
+  Star,
 };
 
 interface CategoryCardProps {
@@ -40,11 +42,12 @@ export default function CategoryCard({
   variant = 'default',
 }: CategoryCardProps) {
   const Icon = iconMap[icon] || Package;
+  const href = slug === 'super-myna-products' ? '/supermyna' : `/products?category=${slug}`;
 
   if (variant === 'compact') {
     return (
       <Link
-        href={`/products?category=${slug}`}
+        href={href}
         className="flex flex-col items-center gap-2 p-4 rounded-lg hover:bg-cream/50 transition-colors group"
       >
         <div className="w-12 h-12 rounded-full bg-cream flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
@@ -59,7 +62,7 @@ export default function CategoryCard({
 
   return (
     <Link
-      href={`/products?category=${slug}`}
+      href={href}
       className={cn(
         'group block rounded-xl border border-border bg-surface p-6',
         'hover:border-primary/20 hover:shadow-card-hover',
